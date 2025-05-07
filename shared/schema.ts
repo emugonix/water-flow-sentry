@@ -10,6 +10,11 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   name: text("name").default("User"),
   role: text("role").default("user"),
+  email: text("email"),
+  phoneNumber: text("phone_number"),
+  emailNotifications: boolean("email_notifications").default(false),
+  smsNotifications: boolean("sms_notifications").default(false),
+  highPriorityOnly: boolean("high_priority_only").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -17,6 +22,11 @@ export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
   name: true,
+  email: true,
+  phoneNumber: true,
+  emailNotifications: true,
+  smsNotifications: true,
+  highPriorityOnly: true,
 });
 
 // Sensors table

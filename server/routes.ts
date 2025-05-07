@@ -7,6 +7,7 @@ import { storage } from "./storage";
 import { eq, and, desc, lt } from "drizzle-orm";
 import * as schema from "@shared/schema";
 import { db } from "@db";
+import { sendLeakAlertEmails } from "./notifications";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create HTTP server
