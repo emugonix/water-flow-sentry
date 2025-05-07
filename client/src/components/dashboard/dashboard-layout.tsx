@@ -19,7 +19,8 @@ import {
 import { User } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { useMobile } from "@/hooks/use-mobile";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
+import { queryClient } from "@/lib/queryClient";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -32,6 +33,29 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location] = useLocation();
   const currentPath = location.split('/').filter(Boolean)[0];
+  
+  // Prefetch functions for page data
+  const prefetchHistoryData = () => {
+    if (currentPath !== 'history') {
+      queryClient.prefetchQuery({
+        queryKey: ["/api/leak-events"],
+      });
+    }
+  };
+  
+  const prefetchDashboardData = () => {
+    if (currentPath !== '') {
+      queryClient.prefetchQuery({
+        queryKey: ["/api/sensors"],
+      });
+      queryClient.prefetchQuery({
+        queryKey: ["/api/valve-status/current"],
+      });
+      queryClient.prefetchQuery({
+        queryKey: ["/api/system-settings"],
+      });
+    }
+  };
   
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -75,14 +99,24 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           </div>
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-2 py-4 space-y-1">
-              <a href="/" className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${!currentPath ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}>
+              <Link 
+                href="/" 
+                className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${!currentPath ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}
+                onMouseEnter={prefetchDashboardData}
+                onFocus={prefetchDashboardData}
+              >
                 <HomeIcon className="mr-3 h-5 w-5" />
                 Dashboard
-              </a>
-              <a href="/history" className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${currentPath === 'history' ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}>
+              </Link>
+              <Link 
+                href="/history" 
+                className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${currentPath === 'history' ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}
+                onMouseEnter={prefetchHistoryData}
+                onFocus={prefetchHistoryData}
+              >
                 <HistoryIcon className="mr-3 h-5 w-5" />
                 History
-              </a>
+              </Link>
               <a href="#" className="flex items-center px-2 py-2 text-sm font-medium text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent rounded-md">
                 <SettingsIcon className="mr-3 h-5 w-5" />
                 Settings
