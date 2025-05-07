@@ -9,7 +9,6 @@ import ValveControlCard from "@/components/dashboard/valve-control-card";
 import FlowMetricsCard from "@/components/dashboard/flow-metrics-card";
 import FlowDataChart from "@/components/dashboard/flow-data-chart";
 import LeakDetection from "@/components/dashboard/leak-detection";
-import SystemStats from "@/components/dashboard/system-stats";
 import ThresholdSettings from "@/components/dashboard/threshold-settings";
 import SensorCard from "@/components/dashboard/sensor-card";
 import { Sensor, SensorReading, LeakEvent, ValveStatus, SystemSettings } from "@shared/schema";
@@ -192,7 +191,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Leak Detection & History */}
+          {/* Leak Detection */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-7">
               <LeakDetection
@@ -203,8 +202,6 @@ export default function HomePage() {
             </div>
             
             <div className="lg:col-span-5 space-y-6">
-              <SystemStats leakEvents={leakEvents} />
-              
               <ThresholdSettings
                 sensors={sensors}
                 systemSettings={systemSettings}
