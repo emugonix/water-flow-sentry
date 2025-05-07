@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { LeakEvent } from "@shared/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import LeakHistory from "@/components/history/leak-history";
-import SystemStats from "@/components/history/system-stats";
-import UsageTrends from "@/components/history/usage-trends";
+import LeakHistory from "../components/history/leak-history";
+import SystemStats from "../components/history/system-stats";
+import UsageTrends from "../components/history/usage-trends";
 import { useAuth } from "@/hooks/use-auth";
 
 export default function HistoryPage() {

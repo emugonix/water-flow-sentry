@@ -93,7 +93,9 @@ export default function LeakHistory({ leakEvents }: LeakHistoryProps) {
                 <TableCell className="whitespace-nowrap">
                   <Badge 
                     variant={leak.severity === 'high' ? 'destructive' : 
-                           (leak.severity === 'medium' ? 'warning' : 'success')}
+                           (leak.severity === 'medium' ? 'secondary' : 'default')}
+                    className={leak.severity === 'high' ? 'bg-red-100 text-red-800' : 
+                              (leak.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800')}
                   >
                     {leak.severity.charAt(0).toUpperCase() + leak.severity.slice(1)}
                   </Badge>
@@ -160,7 +162,9 @@ export default function LeakHistory({ leakEvents }: LeakHistoryProps) {
                   <p className="text-sm font-medium text-gray-500">Severity</p>
                   <Badge 
                     variant={viewingDetails.severity === 'high' ? 'destructive' : 
-                           (viewingDetails.severity === 'medium' ? 'warning' : 'success')}
+                           (viewingDetails.severity === 'medium' ? 'secondary' : 'default')}
+                    className={viewingDetails.severity === 'high' ? 'bg-red-100 text-red-800' : 
+                              (viewingDetails.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800')}
                   >
                     {viewingDetails.severity.charAt(0).toUpperCase() + viewingDetails.severity.slice(1)}
                   </Badge>
