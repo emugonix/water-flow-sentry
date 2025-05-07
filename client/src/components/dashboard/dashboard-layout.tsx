@@ -19,6 +19,7 @@ import {
 import { User } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { useMobile } from "@/hooks/use-mobile";
+import { useLocation } from "wouter";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -29,7 +30,8 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
   const { logoutMutation } = useAuth();
   const isMobile = useMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [location] = window.location.pathname.split('/').filter(Boolean);
+  const [location] = useLocation();
+  const currentPath = location.split('/').filter(Boolean)[0];
   
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -73,11 +75,11 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           </div>
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-2 py-4 space-y-1">
-              <a href="/" className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${!location ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}>
+              <a href="/" className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${!currentPath ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}>
                 <HomeIcon className="mr-3 h-5 w-5" />
                 Dashboard
               </a>
-              <a href="/history" className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${location === 'history' ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}>
+              <a href="/history" className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${currentPath === 'history' ? 'text-sidebar-foreground bg-sidebar-accent' : 'text-gray-300 hover:text-sidebar-foreground hover:bg-sidebar-accent'}`}>
                 <HistoryIcon className="mr-3 h-5 w-5" />
                 History
               </a>
@@ -131,7 +133,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
             <div className="flex-1 flex items-center">
               <div className="max-w-2xl w-full">
                 <h1 className="text-2xl font-semibold text-gray-800">
-                  {location === 'history' ? 'Water Leakage History' : 'Water Leakage Monitoring Dashboard'}
+                  {currentPath === 'history' ? 'Water Leakage History' : 'Water Leakage Monitoring Dashboard'}
                 </h1>
               </div>
             </div>
